@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>_Acroz_ - ACR Soul 1.1.2</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a0000 0%, #330000 50%, #4d0000 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .profile-card {
+            background: rgba(20, 0, 0, 0.9);
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 15px 35px rgba(255, 0, 0, 0.3);
+            border: 2px solid #ff3333;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 50, 50, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: rotate(45deg) translateX(-100%); }
+            100% { transform: rotate(45deg) translateX(100%); }
+        }
+
+        .username {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #ff3333, #ff6666);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: #ff9999;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .client-info {
+            background: rgba(40, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            border: 1px solid #ff3333;
+        }
+
+        .client-name {
+            font-size: 2rem;
+            color: #ff3333;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .version {
+            font-size: 1.5rem;
+            color: #ff6666;
+            margin-bottom: 20px;
+        }
+
+        .status {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff3333, #ff6666);
+            color: #330000;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .feature {
+            background: rgba(40, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #ff3333;
+            transition: all 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
+        }
+
+        .feature i {
+            font-size: 1.8rem;
+            color: #ff3333;
+            margin-bottom: 10px;
+        }
+
+        .feature-name {
+            font-weight: bold;
+            color: #ff6666;
+            margin-bottom: 5px;
+        }
+
+        .feature-desc {
+            font-size: 0.8rem;
+            color: #ff9999;
+        }
+
+        .signature {
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #ff9999;
+            border-top: 1px solid #ff3333;
+            padding-top: 15px;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="profile-card">
+            <div class="username">_Acroz_</div>
+            <div class="tagline">Minecraft Client User</div>
+            
+            <div class="client-info">
+                <div class="client-name">ACR Soul</div>
+                <div class="version">v1.1.2</div>
+                <div class="status pulse">ACTIVE</div>
+            </div>
+            
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-bolt"></i>
+                    <div class="feature-name">Performance</div>
+                    <div class="feature-desc">Optimized for FPS</div>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-eye"></i>
+                    <div class="feature-name">Visuals</div>
+                    <div class="feature-desc">ESP & UI Enhancements</div>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-fist-raised"></i>
+                    <div class="feature-name">Combat</div>
+                    <div class="feature-desc">PvP Improvements</div>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-shield-alt"></i>
+                    <div class="feature-name">Protection</div>
+                    <div class="feature-desc">Anti-Cheat Bypass</div>
+                </div>
+            </div>
+            
+            <div class="signature">
+                Minecraft 1.21 - 1.21.1 Compatible
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Basit bir parıltı efekti
+        document.addEventListener('DOMContentLoaded', function() {
+            const features = document.querySelectorAll('.feature');
+            features.forEach((feature, index) => {
+                feature.style.opacity = '0';
+                feature.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    feature.style.transition = 'opacity 0.5s, transform 0.5s';
+                    feature.style.opacity = '1';
+                    feature.style.transform = 'translateY(0)';
+                }, index * 200 + 500);
+            });
+        });
+    </script>
+</body>
+</html>
+
