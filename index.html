@@ -95,14 +95,33 @@
             margin-bottom: 20px;
         }
 
-        .status {
+        .download-btn {
             display: inline-block;
             background: linear-gradient(45deg, #ff3333, #ff6666);
             color: #330000;
-            padding: 8px 20px;
-            border-radius: 20px;
+            padding: 12px 30px;
+            border-radius: 25px;
             font-weight: bold;
-            font-size: 0.9rem;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
+        }
+
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 0, 0, 0.4);
+            background: linear-gradient(45deg, #ff6666, #ff3333);
+        }
+
+        .download-btn:active {
+            transform: translateY(0);
+        }
+
+        .download-btn i {
+            margin-right: 8px;
         }
 
         .features {
@@ -155,9 +174,9 @@
         }
 
         @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.7; }
-            100% { opacity: 1; }
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
     </style>
 </head>
@@ -170,7 +189,9 @@
             <div class="client-info">
                 <div class="client-name">ACR Soul</div>
                 <div class="version">v1.1.2</div>
-                <div class="status pulse">ACTIVE</div>
+                <a href="https://nolur.com/" class="download-btn pulse" id="downloadBtn">
+                    <i class="fas fa-download"></i>Download
+                </a>
             </div>
             
             <div class="features">
@@ -216,8 +237,14 @@
                     feature.style.transform = 'translateY(0)';
                 }, index * 200 + 500);
             });
+
+            // İndirme butonu tıklama efekti
+            const downloadBtn = document.getElementById('downloadBtn');
+            downloadBtn.addEventListener('click', function(e) {
+                // Butona tıklandığında yapılacak işlemler
+                // https://nolur.com/ adresine yönlendirme otomatik olacak
+            });
         });
     </script>
 </body>
 </html>
-
