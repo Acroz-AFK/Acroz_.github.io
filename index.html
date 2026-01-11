@@ -2,93 +2,177 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>İ Z L E N İ Y O R S U N</title>
+    <title>K U R T U L U Ş  Y O K</title>
     <style>
+        * { cursor: none !important; }
         body {
-            background-color: #050505;
-            color: #d10000;
-            font-family: 'Courier New', Courier, monospace;
+            background-color: #000;
+            color: #330000;
+            font-family: 'Courier New', serif;
+            margin: 0;
             overflow: hidden;
             height: 100vh;
+            user-select: none;
+        }
+
+        /* Arka Plan Gürültüsü */
+        .static-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://media.giphy.com/media/oEI9uWUPr9WUM/giphy.gif');
+            opacity: 0.05;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        /* Glitch Başlık */
+        .main-container {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            cursor: none; /* Fareyi gizleyerek tedirginliği artırır */
+            height: 100vh;
+            text-align: center;
         }
 
-        /* Glitch Efekti */
-        .glitch {
-            font-size: 5rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            position: relative;
-            text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75),
-                         -0.025em -0.05em 0 rgba(0, 255, 0, 0.75),
-                         0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
-            animation: glitch 500ms infinite;
+        h1 {
+            font-size: 80px;
+            color: #ff0000;
+            text-shadow: 5px 5px #550000;
+            animation: shake 0.1s infinite;
         }
 
-        @keyframes glitch {
-            0% { transform: translate(0); }
-            20% { transform: translate(-5px, 5px); }
-            40% { transform: translate(-5px, -5px); }
-            60% { transform: translate(5px, 5px); }
-            80% { transform: translate(5px, -5px); }
-            100% { transform: translate(0); }
-        }
-
-        /* Arka Plan Sübliminal Mesajlar */
-        .subliminal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.02; /* Neredeyse görünmez */
+        /* Garif Yazılar (Rastgele uçuşanlar) */
+        .random-text {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 12px;
             pointer-events: none;
-            z-index: -1;
-            font-size: 10px;
-            overflow: hidden;
-            word-break: break-all;
+            white-space: nowrap;
         }
 
-        /* Takip Eden Göz/Nokta */
-        #stalker {
+        /* Korkutucu Video Katmanı (Sübliminal) */
+        #scary-video {
             position: fixed;
-            width: 10px;
-            height: 10px;
-            background: white;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 100%; min-height: 100%;
+            opacity: 0.08;
+            z-index: -1;
+            filter: grayscale(100%) contrast(200%);
+        }
+
+        /* Kırmızı Takip Işığı */
+        #eye {
+            position: fixed;
+            width: 50px; height: 50px;
+            background: radial-gradient(circle, red, transparent);
             border-radius: 50%;
             pointer-events: none;
-            box-shadow: 0 0 20px 5px red;
+            z-index: 9999;
+        }
+
+        @keyframes shake {
+            0% { transform: translate(2px, 1px) rotate(0deg); }
+            50% { transform: translate(-1px, -2px) rotate(-1deg); }
+            100% { transform: translate(1px, 2px) rotate(1deg); }
+        }
+
+        .distorted {
+            font-size: 20px;
+            color: #444;
+            letter-spacing: 20px;
+            margin-top: -20px;
         }
     </style>
 </head>
-<body>
+<body onclick="startChaos()">
 
-    <div class="subliminal" id="subtext"></div>
-    <div class="glitch">BURADA DEĞİLSİN</div>
-    <div id="stalker"></div>
+    <div class="static-bg"></div>
+    <div id="eye"></div>
+    
+    <video id="scary-video" autoplay loop muted playsinline>
+        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4"> </video>
+
+    <div class="main-container">
+        <h1 id="main-text">K A P I Y I . A Ç</h1>
+        <div class="distorted">S E S L E R İ . D İ N L E</div>
+    </div>
 
     <script>
-        // Sübliminal metin oluşturma
-        const subtext = document.getElementById('subtext');
-        const phrases = ["GÖRÜYORUM", "KAÇAMAZSIN", "010101", "YARDIM ET", "ARKANA BAK"];
-        for(let i=0; i<500; i++) {
-            subtext.innerHTML += phrases[Math.floor(Math.random() * phrases.length)] + " ";
-        }
+        const body = document.body;
+        const eye = document.getElementById('eye');
+        const mainText = document.getElementById('main-text');
 
-        // Fareyi takip eden kırmızı ışık (Stalker)
-        const stalker = document.getElementById('stalker');
+        // Fare Takibi
         document.addEventListener('mousemove', (e) => {
-            stalker.style.left = e.clientX + 'px';
-            stalker.style.top = e.clientY + 'px';
+            eye.style.left = e.clientX - 25 + 'px';
+            eye.style.top = e.clientY - 25 + 'px';
         });
 
-        // Rastgele ses simülasyonu (Opsiyonel: Kullanıcı etkileşimi gerekir)
-        document.body.onclick = () => {
-            console.log("Fısıltılar başladı...");
-        };
+        // 30 Garip Yazı Ekleme
+        const phrases = [
+            "Zaman daralıyor", "Arkandalar", "Hissediyor musun?", "01101000 01100101 01101100 01110000",
+            "Ölüler konuşmaz", "Ruhun burada değil", "Gözlerini kapatma", "Seni izliyorum",
+            "Nefes almayı unutma", "Kaçamazsın", "DUVARLARIN İÇİNDELER", "YATAĞININ ALTI",
+            "BU BİR RÜYA DEĞİL", "SİSTEM ÇÖKTÜ", "GERÇEK NEREDE?", "IŞIĞI KAPAT"
+        ];
+
+        for(let i=0; i<40; i++) {
+            let span = document.createElement('span');
+            span.className = 'random-text';
+            span.style.left = Math.random() * 100 + 'vw';
+            span.style.top = Math.random() * 100 + 'vh';
+            span.innerText = phrases[Math.floor(Math.random() * phrases.length)];
+            body.appendChild(span);
+        }
+
+        // KAOS BAŞLATICISI
+        function startChaos() {
+            mainText.innerText = "G E Ç . K A L D I N";
+            mainText.style.color = "white";
+            
+            // 30 Adet Korkutucu Pop-up/Sekme Denemesi
+            for(let i=0; i<30; i++) {
+                setTimeout(() => {
+                    openWindow();
+                }, i * 200);
+            }
+
+            // Ekranı sars ve renkleri boz
+            setInterval(() => {
+                body.style.backgroundColor = Math.random() > 0.5 ? "#1a0000" : "#000";
+            }, 50);
+        }
+
+        function openWindow() {
+            const w = 200;
+            const h = 200;
+            const x = Math.random() * window.screen.width;
+            const y = Math.random() * window.screen.height;
+            
+            const win = window.open("", "", `width=${w},height=${h},left=${x},top=${y}`);
+            if(win) {
+                win.document.write(`
+                    <body style="background:black; color:red; font-size:10px; overflow:hidden;">
+                        <marquee>ÖLÜM ÖLÜM ÖLÜM ÖLÜM ÖLÜM</marquee>
+                        <center><h1>👁️</h1></center>
+                    </body>
+                `);
+                // Pencereleri otomatik kapat/aç yaparak sistemi yor
+                setTimeout(() => win.close(), 3000);
+            }
+        }
+
+        // Metinleri sürekli değiştir
+        setInterval(() => {
+            const texts = document.querySelectorAll('.random-text');
+            texts.forEach(t => {
+                t.style.left = Math.random() * 100 + 'vw';
+                t.style.top = Math.random() * 100 + 'vh';
+            });
+        }, 1000);
+
     </script>
 </body>
 </html>
