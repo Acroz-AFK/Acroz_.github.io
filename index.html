@@ -2,249 +2,93 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>_Acroz_ - ACR Soul 1.1.2</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>İ Z L E N İ Y O R S U N</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
         body {
-            background: linear-gradient(135deg, #1a0000 0%, #330000 50%, #4d0000 100%);
-            color: #fff;
-            min-height: 100vh;
+            background-color: #050505;
+            color: #d10000;
+            font-family: 'Courier New', Courier, monospace;
+            overflow: hidden;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            cursor: none; /* Fareyi gizleyerek tedirginliği artırır */
         }
 
-        .container {
-            width: 100%;
-            max-width: 500px;
-        }
-
-        .profile-card {
-            background: rgba(20, 0, 0, 0.9);
-            border-radius: 20px;
-            padding: 40px 30px;
-            box-shadow: 0 15px 35px rgba(255, 0, 0, 0.3);
-            border: 2px solid #ff3333;
-            text-align: center;
+        /* Glitch Efekti */
+        .glitch {
+            font-size: 5rem;
+            font-weight: bold;
+            text-transform: uppercase;
             position: relative;
+            text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75),
+                         -0.025em -0.05em 0 rgba(0, 255, 0, 0.75),
+                         0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+            animation: glitch 500ms infinite;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-5px, 5px); }
+            40% { transform: translate(-5px, -5px); }
+            60% { transform: translate(5px, 5px); }
+            80% { transform: translate(5px, -5px); }
+            100% { transform: translate(0); }
+        }
+
+        /* Arka Plan Sübliminal Mesajlar */
+        .subliminal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.02; /* Neredeyse görünmez */
+            pointer-events: none;
+            z-index: -1;
+            font-size: 10px;
             overflow: hidden;
+            word-break: break-all;
         }
 
-        .profile-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255, 50, 50, 0.1), transparent);
-            transform: rotate(45deg);
-            animation: shine 3s infinite;
-        }
-
-        @keyframes shine {
-            0% { transform: rotate(45deg) translateX(-100%); }
-            100% { transform: rotate(45deg) translateX(100%); }
-        }
-
-        .username {
-            font-size: 3rem;
-            font-weight: 900;
-            background: linear-gradient(45deg, #ff3333, #ff6666);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
-            margin-bottom: 10px;
-            letter-spacing: 2px;
-        }
-
-        .tagline {
-            font-size: 1.2rem;
-            color: #ff9999;
-            margin-bottom: 30px;
-            font-style: italic;
-        }
-
-        .client-info {
-            background: rgba(40, 0, 0, 0.7);
-            border-radius: 15px;
-            padding: 25px;
-            margin: 25px 0;
-            border: 1px solid #ff3333;
-        }
-
-        .client-name {
-            font-size: 2rem;
-            color: #ff3333;
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
-
-        .version {
-            font-size: 1.5rem;
-            color: #ff6666;
-            margin-bottom: 20px;
-        }
-
-        .download-btn {
-            display: inline-block;
-            background: linear-gradient(45deg, #ff3333, #ff6666);
-            color: #330000;
-            padding: 12px 30px;
-            border-radius: 25px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
-        }
-
-        .download-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(255, 0, 0, 0.4);
-            background: linear-gradient(45deg, #ff6666, #ff3333);
-        }
-
-        .download-btn:active {
-            transform: translateY(0);
-        }
-
-        .download-btn i {
-            margin-right: 8px;
-        }
-
-        .features {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 25px;
-        }
-
-        .feature {
-            background: rgba(40, 0, 0, 0.7);
-            padding: 15px;
-            border-radius: 10px;
-            border: 1px solid #ff3333;
-            transition: all 0.3s ease;
-        }
-
-        .feature:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
-        }
-
-        .feature i {
-            font-size: 1.8rem;
-            color: #ff3333;
-            margin-bottom: 10px;
-        }
-
-        .feature-name {
-            font-weight: bold;
-            color: #ff6666;
-            margin-bottom: 5px;
-        }
-
-        .feature-desc {
-            font-size: 0.8rem;
-            color: #ff9999;
-        }
-
-        .signature {
-            margin-top: 30px;
-            font-size: 0.9rem;
-            color: #ff9999;
-            border-top: 1px solid #ff3333;
-            padding-top: 15px;
-        }
-
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        /* Takip Eden Göz/Nokta */
+        #stalker {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            box-shadow: 0 0 20px 5px red;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="profile-card">
-            <div class="username">_Acroz_</div>
-            <div class="tagline">Minecraft Client User</div>
-            
-            <div class="client-info">
-                <div class="client-name">ACR Soul</div>
-                <div class="version">v1.1.2</div>
-                <a href="https://nolur.com/" class="download-btn pulse" id="downloadBtn">
-                    <i class="fas fa-download"></i>Download
-                </a>
-            </div>
-            
-            <div class="features">
-                <div class="feature">
-                    <i class="fas fa-bolt"></i>
-                    <div class="feature-name">Performance</div>
-                    <div class="feature-desc">Optimized for FPS</div>
-                </div>
-                <div class="feature">
-                    <i class="fas fa-eye"></i>
-                    <div class="feature-name">Visuals</div>
-                    <div class="feature-desc">ESP & UI Enhancements</div>
-                </div>
-                <div class="feature">
-                    <i class="fas fa-fist-raised"></i>
-                    <div class="feature-name">Combat</div>
-                    <div class="feature-desc">PvP Improvements</div>
-                </div>
-                <div class="feature">
-                    <i class="fas fa-shield-alt"></i>
-                    <div class="feature-name">Protection</div>
-                    <div class="feature-desc">Anti-Cheat Bypass</div>
-                </div>
-            </div>
-            
-            <div class="signature">
-                Minecraft 1.21 - 1.21.1 Compatible
-            </div>
-        </div>
-    </div>
+
+    <div class="subliminal" id="subtext"></div>
+    <div class="glitch">BURADA DEĞİLSİN</div>
+    <div id="stalker"></div>
 
     <script>
-        // Basit bir parıltı efekti
-        document.addEventListener('DOMContentLoaded', function() {
-            const features = document.querySelectorAll('.feature');
-            features.forEach((feature, index) => {
-                feature.style.opacity = '0';
-                feature.style.transform = 'translateY(20px)';
-                
-                setTimeout(() => {
-                    feature.style.transition = 'opacity 0.5s, transform 0.5s';
-                    feature.style.opacity = '1';
-                    feature.style.transform = 'translateY(0)';
-                }, index * 200 + 500);
-            });
+        // Sübliminal metin oluşturma
+        const subtext = document.getElementById('subtext');
+        const phrases = ["GÖRÜYORUM", "KAÇAMAZSIN", "010101", "YARDIM ET", "ARKANA BAK"];
+        for(let i=0; i<500; i++) {
+            subtext.innerHTML += phrases[Math.floor(Math.random() * phrases.length)] + " ";
+        }
 
-            // İndirme butonu tıklama efekti
-            const downloadBtn = document.getElementById('downloadBtn');
-            downloadBtn.addEventListener('click', function(e) {
-                // Butona tıklandığında yapılacak işlemler
-                // https://nolur.com/ adresine yönlendirme otomatik olacak
-            });
+        // Fareyi takip eden kırmızı ışık (Stalker)
+        const stalker = document.getElementById('stalker');
+        document.addEventListener('mousemove', (e) => {
+            stalker.style.left = e.clientX + 'px';
+            stalker.style.top = e.clientY + 'px';
         });
+
+        // Rastgele ses simülasyonu (Opsiyonel: Kullanıcı etkileşimi gerekir)
+        document.body.onclick = () => {
+            console.log("Fısıltılar başladı...");
+        };
     </script>
 </body>
 </html>
