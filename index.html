@@ -2,114 +2,157 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>SİSTEM HATASI // 000</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YARDIM ET</title>
     <style>
-        body {
-            background-color: #050505;
-            color: #bc0000;
-            font-family: 'Courier New', Courier, monospace;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+        body, html {
             margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #050505;
+            color: #7a0000;
+            font-family: 'Courier New', Courier, monospace;
             overflow: hidden;
             cursor: crosshair;
         }
 
-        #glitch-container {
-            text-align: center;
-            user-select: none;
+        /* Glitch Efekti */
+        .glitch-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            flex-direction: column;
         }
 
-        h1 {
-            font-size: 3rem;
-            text-shadow: 2px 2px #3a0000;
-            animation: flicker 0.1s infinite;
+        .glitch {
+            font-size: 5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            position: relative;
+            text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75),
+                         -0.025em -0.05em 0 rgba(0, 255, 0, 0.75),
+                         0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+            animation: glitch 500ms infinite;
         }
 
-        .hidden-text {
-            color: #1a1a1a;
-            font-size: 0.8rem;
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-5px, 5px); }
+            40% { transform: translate(-5px, -5px); }
+            60% { transform: translate(5px, 5px); }
+            80% { transform: translate(5px, -5px); }
+            100% { transform: translate(0); }
+        }
+
+        .message {
+            font-size: 1.2rem;
             margin-top: 20px;
-            transition: color 2s;
+            color: #444;
+            letter-spacing: 5px;
+            animation: blink 2s infinite;
         }
 
-        /* Korkutucu efektler */
-        @keyframes flicker {
-            0% { opacity: 0.8; }
-            50% { opacity: 1; }
-            100% { opacity: 0.9; }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
 
-        .glitch-overlay {
+        /* Gizli Buton */
+        #secret-button {
+            background: none;
+            border: 1px solid #333;
+            color: #333;
+            padding: 10px 20px;
+            margin-top: 50px;
+            cursor: pointer;
+            transition: 0.5s;
+        }
+
+        #secret-button:hover {
+            color: #ff0000;
+            border-color: #ff0000;
+            box-shadow: 0 0 20px #ff0000;
+        }
+
+        /* Jumpscare Ekranı */
+        #jumpscare {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 0, 0, 0.02);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            display: none;
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #jumpscare img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Kırmızı flaş efekti */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, transparent 20%, black 150%);
             pointer-events: none;
-            z-index: 10;
         }
     </style>
 </head>
-<body onclick="interact()">
+<body>
 
-    <div class="glitch-overlay"></div>
+    <div class="overlay"></div>
 
-    <div id="glitch-container">
-        <h1 id="main-text">İZLENİYORSUN</h1>
-        <p id="sub-text">Devam etmek için ekrana dokun...</p>
-        <div id="counter" class="hidden-text">0 VERİ TOPLANDI</div>
+    <div class="glitch-wrapper">
+        <div class="glitch" data-text="İZLENİYORSUN">İZLENİYORSUN</div>
+        <p class="message">BURADAN ÇIKIŞ YOK...</p>
+        <button id="secret-button">KAPIYI AÇ</button>
+    </div>
+
+    <div id="jumpscare">
+        <img src="https://i.imgur.com/vHdfY9Y.jpg" alt="KORKU">
+        <audio id="scream-sound" src="https://www.soundjay.com/human/sounds/shout-01.mp3"></audio>
     </div>
 
     <script>
-        let clicks = 0;
-        const messages = [
-            "Gözlerini kapatma.",
-            "Neden buradasın?",
-            "Sesleri duyuyor musun?",
-            "Arkana bakma.",
-            "Sistem seni tanıyor.",
-            "Çıkış yok.",
-            "Sadece izle."
-        ];
+        const btn = document.getElementById('secret-button');
+        const jumpscare = document.getElementById('jumpscare');
+        const sound = document.getElementById('scream-sound');
 
-        function interact() {
-            clicks++;
-            const mainText = document.getElementById('main-text');
-            const subText = document.getElementById('sub-text');
-            const counter = document.getElementById('counter');
-
-            // Metni değiştir
-            mainText.innerText = messages[Math.floor(Math.random() * messages.length)];
+        btn.addEventListener('click', () => {
+            // Tam ekran yap (daha korkutucu olması için)
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+            }
             
-            // Renkleri boz
-            document.body.style.backgroundColor = (clicks % 5 === 0) ? "#0e0000" : "#050505";
-            
-            // Sayaç
-            counter.innerText = `${clicks * 13} BAYT SIZDIRILDI`;
-            counter.style.color = "#4a0000";
+            // 2 saniye sonra jumpscare tetikle
+            setTimeout(() => {
+                jumpscare.style.display = 'flex';
+                sound.play();
+                
+                // Ekranı salla
+                document.body.style.animation = "glitch 0.1s infinite";
+                
+                // 3 saniye sonra kapat veya öylece bırak
+                setTimeout(() => {
+                    location.reload(); // Sayfayı yenileyerek başa döner
+                }, 3000);
+            }, 500);
+        });
 
-            // Basit bir bip sesi simülasyonu (Tarayıcı izin verirse)
-            playDistortion();
-        }
-
-        function playDistortion() {
-            const context = new (window.AudioContext || window.webkitAudioContext)();
-            const osc = context.createOscillator();
-            const gain = context.createGain();
-
-            osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(Math.random() * 100 + 50, context.currentTime);
-            
-            gain.gain.setValueAtTime(0.01, context.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + 0.5);
-
-            osc.connect(gain);
-            gain.connect(context.destination);
-
-            osc.start();
-            osc.stop(context.currentTime + 0.5);
-        }
+        // Arka planda rastgele fısıltı veya ses efektleri simülasyonu (isteğe bağlı)
+        document.body.addEventListener('mousemove', () => {
+            // Kullanıcı etkileşimi olmadan ses çalmaz, o yüzden buraya bir tetikleyici konabilir.
+        });
     </script>
 </body>
 </html>
