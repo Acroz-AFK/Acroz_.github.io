@@ -1,1 +1,115 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>SİSTEM HATASI // 000</title>
+    <style>
+        body {
+            background-color: #050505;
+            color: #bc0000;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            cursor: crosshair;
+        }
 
+        #glitch-container {
+            text-align: center;
+            user-select: none;
+        }
+
+        h1 {
+            font-size: 3rem;
+            text-shadow: 2px 2px #3a0000;
+            animation: flicker 0.1s infinite;
+        }
+
+        .hidden-text {
+            color: #1a1a1a;
+            font-size: 0.8rem;
+            margin-top: 20px;
+            transition: color 2s;
+        }
+
+        /* Korkutucu efektler */
+        @keyframes flicker {
+            0% { opacity: 0.8; }
+            50% { opacity: 1; }
+            100% { opacity: 0.9; }
+        }
+
+        .glitch-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 0, 0, 0.02);
+            pointer-events: none;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body onclick="interact()">
+
+    <div class="glitch-overlay"></div>
+
+    <div id="glitch-container">
+        <h1 id="main-text">İZLENİYORSUN</h1>
+        <p id="sub-text">Devam etmek için ekrana dokun...</p>
+        <div id="counter" class="hidden-text">0 VERİ TOPLANDI</div>
+    </div>
+
+    <script>
+        let clicks = 0;
+        const messages = [
+            "Gözlerini kapatma.",
+            "Neden buradasın?",
+            "Sesleri duyuyor musun?",
+            "Arkana bakma.",
+            "Sistem seni tanıyor.",
+            "Çıkış yok.",
+            "Sadece izle."
+        ];
+
+        function interact() {
+            clicks++;
+            const mainText = document.getElementById('main-text');
+            const subText = document.getElementById('sub-text');
+            const counter = document.getElementById('counter');
+
+            // Metni değiştir
+            mainText.innerText = messages[Math.floor(Math.random() * messages.length)];
+            
+            // Renkleri boz
+            document.body.style.backgroundColor = (clicks % 5 === 0) ? "#0e0000" : "#050505";
+            
+            // Sayaç
+            counter.innerText = `${clicks * 13} BAYT SIZDIRILDI`;
+            counter.style.color = "#4a0000";
+
+            // Basit bir bip sesi simülasyonu (Tarayıcı izin verirse)
+            playDistortion();
+        }
+
+        function playDistortion() {
+            const context = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = context.createOscillator();
+            const gain = context.createGain();
+
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(Math.random() * 100 + 50, context.currentTime);
+            
+            gain.gain.setValueAtTime(0.01, context.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + 0.5);
+
+            osc.connect(gain);
+            gain.connect(context.destination);
+
+            osc.start();
+            osc.stop(context.currentTime + 0.5);
+        }
+    </script>
+</body>
+</html>
